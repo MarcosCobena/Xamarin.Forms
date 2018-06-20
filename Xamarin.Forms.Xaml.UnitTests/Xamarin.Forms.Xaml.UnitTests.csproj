@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <_DisableStrongNamer>True</_DisableStrongNamer>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4B14D295-C09B-4C38-B880-7CC768E50585}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -642,6 +643,7 @@
     <ProjectReference Include="..\Xamarin.Forms.Build.Tasks\Xamarin.Forms.Build.Tasks.csproj">
       <Project>{96D89208-4EB9-4451-BE73-8A9DF3D9D7B7}</Project>
       <Name>Xamarin.Forms.Build.Tasks</Name>
+      <AdditionalProperties>_DisableStrongNamer=True</AdditionalProperties>
     </ProjectReference>
     <ProjectReference Include="..\Xamarin.Forms.Controls\Xamarin.Forms.Controls.csproj">
       <Project>{CB9C96CE-125C-4A68-B6A1-C3FF1FBF93E1}</Project>
