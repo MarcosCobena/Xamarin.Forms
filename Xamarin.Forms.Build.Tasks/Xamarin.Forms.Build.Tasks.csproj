@@ -47,23 +47,21 @@
  	</ItemGroup>
   </Target>
 
-	<Target Name="_GetSNPath">
+	<PropertyGroup Condition="'$(SnExe)' == '' And '$(OS)' != 'Windows_NT'">
+		<SnExe>sn</SnExe>
+	</PropertyGroup>
+	
+	<Target Name="_SetSnExe" Condition="'$(SnExe)' == '' And '$(OS)' == 'Windows_NT'">
 		<GetFrameworkSdkPath>
 			<Output TaskParameter="Path" PropertyName="WindowsSdkPath" />
 		</GetFrameworkSdkPath>
-		<Exec Command=":; echo sn &gt; sn-path.txt; exit $?
-		WHERE /r &quot;$(WindowsSdkPath.TrimEnd('\\'))&quot; sn &gt; sn-path.txt"  />
-  			<ReadLinesFromFile File="sn-path.txt">
-    			<Output TaskParameter="Lines" PropertyName="SNPath"/>
-  			</ReadLinesFromFile>
-  		<Delete Files="sn-path.txt" />
-  		<PropertyGroup>
-    		<_SNPath>$([System.Text.RegularExpressions.Regex]::Replace('$(SNPath)', ';.*', ''))</_SNPath>
-  		</PropertyGroup>
+		<PropertyGroup>
+			<SnExe>$([System.IO.Directory]::GetFiles("$(WindowsSdkPath)", "sn.exe", SearchOption.AllDirectories)[0])</SnExe>
+		</PropertyGroup>
 	</Target>
 	
-  <Target Name="_StrongName" AfterTargets="Build" DependsOnTargets="_GetSNPath">
-  	<Exec Command="$(_SNPath) -R $(TargetPath) ..\xamarin.forms.snk" Condition=" '$(SignAssembly)' == 'true' " />
+  <Target Name="_StrongName" AfterTargets="Build" DependsOnTargets="_SetSnExe">
+  	<Exec Command="$(SnExe) -R $(TargetPath) ..\xamarin.forms.snk" Condition=" '$(SignAssembly)' == 'true' " />
   </Target>
 
   <Target Name="_CopyToNuspecDir" AfterTargets="_StrongName;Build">
