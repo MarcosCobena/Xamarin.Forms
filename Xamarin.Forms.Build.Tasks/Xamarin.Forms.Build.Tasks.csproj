@@ -55,7 +55,7 @@
 		<GetFrameworkSdkPath>
 			<Output TaskParameter="Path" PropertyName="WindowsSdkPath" />
 		</GetFrameworkSdkPath>
-		<Exec Command="WHERE /r &quot;$(WindowsSdkPath.TrimEnd('\\'))&quot; sn">
+		<Exec Command="WHERE /r &quot;$(WindowsSdkPath.TrimEnd('\\'))&quot; sn" ConsoleToMSBuild="true">
 			<Output TaskParameter="ConsoleOutput" PropertyName="SnExe" />
 		</Exec>
 
