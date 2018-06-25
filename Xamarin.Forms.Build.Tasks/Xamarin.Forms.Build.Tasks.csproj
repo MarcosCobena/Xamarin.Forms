@@ -55,9 +55,13 @@
 		<GetFrameworkSdkPath>
 			<Output TaskParameter="Path" PropertyName="WindowsSdkPath" />
 		</GetFrameworkSdkPath>
-		<PropertyGroup>
+		<Exec Command="WHERE /r &quot;$(WindowsSdkPath.TrimEnd('\\'))&quot; sn &gt; sn-path.txt">
+			<Output TaskParameter="ConsoleOutput" PropertyName="SnExe" />
+		</Exec>
+		<!--<PropertyGroup>
 			<SnExe>$([System.IO.Directory]::GetFiles("$(WindowsSdkPath)", "sn.exe", SearchOption.AllDirectories)[0])</SnExe>
-		</PropertyGroup>
+		</PropertyGroup>-->
+		
 	</Target>
 	
   <Target Name="_StrongName" AfterTargets="Build" DependsOnTargets="_SetSnExe">
